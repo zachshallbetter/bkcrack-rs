@@ -63,7 +63,11 @@ mod tests {
     fn forward_and_inverse_round_trip() {
         for state in [0u32, 1, 0x12345678, 0xffff_ffff, 0xdead_beef] {
             for b in 0..=255u8 {
-                assert_eq!(crc32inv(crc32(state, b), b), state, "state={state:#x} b={b}");
+                assert_eq!(
+                    crc32inv(crc32(state, b), b),
+                    state,
+                    "state={state:#x} b={b}"
+                );
             }
         }
     }

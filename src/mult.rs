@@ -62,8 +62,14 @@ mod tests {
     fn fiber2_contains_every_x_under_its_two_targets() {
         for x in 0..256u32 {
             let m = msb(x.wrapping_mul(MULT_INV));
-            assert!(msbprod_fiber2(m).contains(&(x as u8)), "x={x} missing under msb");
-            assert!(msbprod_fiber2(m.wrapping_add(1)).contains(&(x as u8)), "x={x} under msb+1");
+            assert!(
+                msbprod_fiber2(m).contains(&(x as u8)),
+                "x={x} missing under msb"
+            );
+            assert!(
+                msbprod_fiber2(m.wrapping_add(1)).contains(&(x as u8)),
+                "x={x} under msb+1"
+            );
         }
     }
 

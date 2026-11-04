@@ -1,5 +1,8 @@
 # bkcrack-rs
 
+[![CI](https://github.com/zachshallbetter/bkcrack-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/zachshallbetter/bkcrack-rs/actions/workflows/ci.yml)
+[![license: Zlib](https://img.shields.io/badge/license-Zlib-blue.svg)](LICENSE)
+
 A Rust port of [bkcrack](https://github.com/kimci86/bkcrack): Biham and Kocher's
 known-plaintext attack on legacy ZIP encryption (traditional PKWARE encryption,
 also called ZipCrypto).
@@ -29,6 +32,13 @@ plaintext is available.
 The keys can also be used to write a copy of the archive without encryption, or
 re-encrypted under a chosen password, or (separately) to search for the original
 password, which is only worthwhile if the password string itself is wanted.
+
+## Intended use
+
+This is a recovery tool for archives you own or are authorized to access. The
+attack applies only to the legacy ZipCrypto scheme and needs known plaintext
+from inside the archive; it is not a password guesser and does not affect the
+modern AES encryption that current ZIP tools use.
 
 ## Requirements for the attack
 

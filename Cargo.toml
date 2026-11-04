@@ -6,13 +6,25 @@ rust-version = "1.80"
 description = "Rust port of bkcrack: Biham and Kocher's known-plaintext attack on legacy ZIP (ZipCrypto) encryption."
 license = "Zlib"
 repository = "https://github.com/zachshallbetter/bkcrack-rs"
+homepage = "https://github.com/zachshallbetter/bkcrack-rs"
 readme = "README.md"
 keywords = ["zip", "zipcrypto", "pkzip", "recovery", "cryptanalysis"]
 categories = ["cryptography"]
-exclude = ["/.github"]
+exclude = ["/.github", "/tools", "/docs/reflection.md"]
 
 [lib]
 name = "bkcrack"
 
 [lints.rust]
 unsafe_code = "forbid"
+missing_docs = "warn"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

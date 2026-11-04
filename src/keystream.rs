@@ -31,7 +31,11 @@ static TAB: LazyLock<KeystreamTab> = LazyLock::new(|| {
         z_2_16 += 4;
     }
 
-    KeystreamTab { byte, inv_filter, inv_exists }
+    KeystreamTab {
+        byte,
+        inv_filter,
+        inv_exists,
+    }
 });
 
 /// The keystream byte for key-word state `z`.
@@ -80,7 +84,10 @@ mod tests {
         let mut z: u32 = 0;
         while z < (1 << 16) {
             let k = get_byte(z);
-            assert!(get_zi_2_16(k, z).contains(&z), "z={z:#x} missing under k={k:#x}");
+            assert!(
+                get_zi_2_16(k, z).contains(&z),
+                "z={z:#x} missing under k={k:#x}"
+            );
             z += 4;
         }
     }

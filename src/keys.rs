@@ -13,6 +13,18 @@ use crate::mult::{MULT, MULT_INV};
 /// The password sets the initial state; the attack recovers it directly, without
 /// the password. From the state, any entry encrypted with the same password can
 /// be decrypted.
+///
+/// ```
+/// use bkcrack::Keys;
+///
+/// let mut keys = Keys::from_password("my password");
+/// let mut ciphertext = Vec::new();
+/// keys.encrypt(b"secret", &mut ciphertext);
+///
+/// let mut plaintext = Vec::new();
+/// Keys::from_password("my password").decrypt(&ciphertext, &mut plaintext);
+/// assert_eq!(plaintext, b"secret");
+/// ```
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Keys {
     x: u32,
@@ -23,7 +35,11 @@ pub struct Keys {
 impl Default for Keys {
     /// The constant initial state before any password byte is mixed in.
     fn default() -> Self {
-        Keys { x: 0x12345678, y: 0x23456789, z: 0x34567890 }
+        Keys {
+            x: 0x12345678,
+            y: 0x23456789,
+            z: 0x34567890,
+        }
     }
 }
 
@@ -81,7 +97,11 @@ impl Keys {
     /// Step the state back by one byte, given the ciphertext byte `c`.
     pub fn update_backward(&mut self, c: u8) {
         self.z = crc32inv(self.z, msb(self.y));
-        self.y = self.y.wrapping_sub(1).wrapping_mul(MULT_INV).wrapping_sub(lsb(self.x) as u32);
+        self.y = self
+            .y
+            .wrapping_sub(1)
+            .wrapping_mul(MULT_INV)
+            .wrapping_sub(lsb(self.x) as u32);
         // After z is reverted, the keystream byte is the one used at this step.
         let p = c ^ keystream::get_byte(self.z);
         self.x = crc32inv(self.x, p);
@@ -90,7 +110,11 @@ impl Keys {
     /// Step the state back by one byte, given the plaintext byte `p` directly.
     pub fn update_backward_plaintext(&mut self, p: u8) {
         self.z = crc32inv(self.z, msb(self.y));
-        self.y = self.y.wrapping_sub(1).wrapping_mul(MULT_INV).wrapping_sub(lsb(self.x) as u32);
+        self.y = self
+            .y
+            .wrapping_sub(1)
+            .wrapping_mul(MULT_INV)
+            .wrapping_sub(lsb(self.x) as u32);
         self.x = crc32inv(self.x, p);
     }
 
@@ -132,7 +156,10 @@ mod tests {
         // Cross-checked against a separate implementation of the documented
         // PKWARE key schedule (see the port's test notes): password "bkcrack-rs".
         let keys = Keys::from_password("bkcrack-rs");
-        assert_eq!((keys.x(), keys.y(), keys.z()), (0x2e2acfbf, 0x1662008b, 0xd15b530c));
+        assert_eq!(
+            (keys.x(), keys.y(), keys.z()),
+            (0x2e2acfbf, 0x1662008b, 0xd15b530c)
+        );
 
         let expected: [u8; 16] = [
             0x67, 0xe6, 0x2c, 0xf3, 0x6e, 0xcd, 0xbb, 0x6f, 0x87, 0x1a, 0x46, 0xee, 0xa0, 0xf6,
