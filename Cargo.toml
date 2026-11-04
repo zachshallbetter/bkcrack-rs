@@ -1,0 +1,18 @@
+[package]
+name = "bkcrack-rs"
+version = "0.0.1"
+edition = "2021"
+rust-version = "1.80"
+description = "Rust port of bkcrack: Biham and Kocher's known-plaintext attack on legacy ZIP (ZipCrypto) encryption."
+license = "Zlib"
+repository = "https://github.com/zachshallbetter/bkcrack-rs"
+readme = "README.md"
+keywords = ["zip", "zipcrypto", "pkzip", "recovery", "cryptanalysis"]
+categories = ["cryptography"]
+exclude = ["/.github"]
+
+[lib]
+name = "bkcrack"
+
+[lints.rust]
+unsafe_code = "forbid"
