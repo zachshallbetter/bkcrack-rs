@@ -45,13 +45,11 @@ pub(crate) fn get_byte(z: u32) -> u8 {
 
 /// The `Zi[2,16)` values consistent with keystream byte `ki` and the given
 /// `Zi[10,16)` group.
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) fn get_zi_2_16(ki: u8, zi_10_16: u32) -> &'static [u32] {
     &TAB.inv_filter[ki as usize][((zi_10_16 & mask(0, 16)) >> 10) as usize]
 }
 
 /// Whether any `Zi[2,16)` value is consistent with `ki` and the `Zi[10,16)` group.
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) fn has_zi_2_16(ki: u8, zi_10_16: u32) -> bool {
     (TAB.inv_exists[ki as usize] >> ((zi_10_16 & mask(0, 16)) >> 10)) & 1 != 0
 }

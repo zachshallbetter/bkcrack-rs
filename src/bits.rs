@@ -17,6 +17,12 @@ pub(crate) const fn mask(begin: u32, end: u32) -> u32 {
     (u32::MAX << begin) & (u32::MAX >> (32 - end))
 }
 
+/// The largest difference the attack tolerates when comparing `x`-bit fields:
+/// `mask(0, x) + 0xff`.
+pub(crate) const fn maxdiff(x: u32) -> u32 {
+    mask(0, x).wrapping_add(0xff)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -44,13 +44,11 @@ pub(crate) const fn crc32inv(crc: u32, b: u8) -> u32 {
 }
 
 /// `Yi[24,32)` given `Zi` and `Zi-1`, from the key-update relations.
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) const fn get_yi_24_32(zi: u32, zim1: u32) -> u32 {
     (crc32inv(zi, 0) ^ zim1) << 24
 }
 
 /// `Zi-1[10,32)` given `Zi[2,32)` (the low 10 bits are discarded).
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) const fn get_zim1_10_32(zi_2_32: u32) -> u32 {
     crc32inv(zi_2_32, 0) & mask(10, 32)
 }

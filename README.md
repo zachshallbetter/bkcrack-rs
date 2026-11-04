@@ -53,26 +53,41 @@ modern AES encryption that current ZIP tools use.
 
 ## Status
 
-Early. This crate is being built up from bkcrack's structure, with each stage
-ported faithfully and tested before the next.
+Being built up from bkcrack's structure, each stage ported faithfully and tested
+before the next.
 
-- Done: the cipher state machine (`Keys`) and the lookup tables behind it (the
-  CRC-32, keystream and multiplication tables), with unit tests and a
-  cross-checked keystream vector.
-- Next: loading ciphertext and known plaintext, the key-recovery attack
-  (candidate generation, reduction and the recursive search), decrypting and
-  rewriting archives, and password recovery.
+- Done: the cipher state machine (`Keys`) and its lookup tables; and the
+  key-recovery attack — loading ciphertext and known plaintext (`Data`),
+  candidate generation and reduction (`Zreduction`) and the recursive search
+  (`Attack`), run across all cores, with scattered extra plaintext supported. The
+  candidate counts match the original bkcrack exactly, and the recovered keys are
+  verified by decrypting a built stream.
+- Next: reading and writing ZIP archives (so an archive can be opened directly),
+  and recovering the original password from the keys.
 
-The public API will stabilise once the attack path is complete; until then,
-treat it as unstable.
+The public API will stabilise once those land; until then, treat it as unstable.
 
 ## Usage
 
+Recover the internal keys from ciphertext and known plaintext, then decrypt:
+
+```rust
+use bkcrack::{find_keys, Data};
+
+// `ciphertext` includes the 12-byte encryption header; `plaintext` is a
+// contiguous run of 12+ known bytes (8+ contiguous) at `offset` after the header.
+let data = Data::new(ciphertext.clone(), plaintext, 0).unwrap();
+if let Some(mut keys) = find_keys(&data, false).into_iter().next() {
+    let mut decrypted = Vec::new();
+    keys.decrypt(&ciphertext, &mut decrypted); // header + data, in the clear
+}
+```
+
+The three internal keys can also be derived from a password, for testing and
+tooling (the attack recovers them without it):
+
 ```rust
 use bkcrack::Keys;
-
-// The three internal keys from a password (for testing and tooling; the attack
-// recovers these without the password).
 let keys = Keys::from_password("some password");
 println!("{:08x} {:08x} {:08x}", keys.x(), keys.y(), keys.z());
 ```

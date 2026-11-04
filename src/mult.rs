@@ -15,7 +15,6 @@ const _: () = assert!(MULT.wrapping_mul(MULT_INV) == 1);
 
 struct MultTab {
     fiber2: [Vec<u8>; 256],
-    #[allow(dead_code)] // used by the key-recovery attack (next milestone)
     fiber3: [Vec<u8>; 256],
 }
 
@@ -38,13 +37,11 @@ static TAB: LazyLock<MultTab> = LazyLock::new(|| {
 });
 
 /// Candidate `x` values whose `msb(x * MULT_INV)` is `msbprodinv` or one less.
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) fn msbprod_fiber2(msbprodinv: u8) -> &'static [u8] {
     &TAB.fiber2[msbprodinv as usize]
 }
 
 /// The wider fiber used one step deeper in the attack.
-#[allow(dead_code)] // used by the key-recovery attack (next milestone)
 pub(crate) fn msbprod_fiber3(msbprodinv: u8) -> &'static [u8] {
     &TAB.fiber3[msbprodinv as usize]
 }
