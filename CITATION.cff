@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "bkcrack-rs"
+abstract: >-
+  A Rust port of bkcrack: Biham and Kocher's known-plaintext attack on legacy
+  ZIP (ZipCrypto) encryption.
+type: software
+authors:
+  - family-names: Shallbetter
+    given-names: Zach
+version: "0.0.1"
+license: Zlib
+repository-code: "https://github.com/zachshallbetter/bkcrack-rs"
+keywords:
+  - zip
+  - zipcrypto
+  - cryptanalysis
+references:
+  - type: software
+    title: "bkcrack"
+    authors:
+      - family-names: Hotonnier
+        given-names: Joachim
+    repository-code: "https://github.com/kimci86/bkcrack"
+    notes: "The C++ implementation this port follows."
+  - type: conference-paper
+    title: "A known plaintext attack on the PKZIP stream cipher"
+    authors:
+      - family-names: Biham
+        given-names: Eli
+      - family-names: Kocher
+        given-names: Paul C.
+    collection-title: "Fast Software Encryption (FSE 1994)"
+    doi: "10.1007/3-540-60590-8_12"

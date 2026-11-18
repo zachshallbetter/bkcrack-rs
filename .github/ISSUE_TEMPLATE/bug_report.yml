@@ -1,0 +1,40 @@
+name: Bug report
+description: The library returns a wrong result, panics, or does not match the original bkcrack.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. A minimal reproduction is the fastest path to a fix. Report security issues privately, not here. Do not attach archives you are not authorized to access.
+  - type: input
+    id: version
+    attributes:
+      label: Crate version
+      description: The version in Cargo.toml, or the commit if you built from source.
+      placeholder: bkcrack-rs 0.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: What should have happened. If the original bkcrack behaves differently, say how.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: A code snippet or test using the `bkcrack` crate, with the ciphertext and known plaintext lengths.
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: OS, Rust version (rustc --version)
