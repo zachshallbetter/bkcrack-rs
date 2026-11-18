@@ -92,8 +92,35 @@ let keys = Keys::from_password("some password");
 println!("{:08x} {:08x} {:08x}", keys.x(), keys.y(), keys.z());
 ```
 
+## Repository map
+
+| Path | Contents |
+| --- | --- |
+| `src/` | The `bkcrack` library: `keys` (cipher state), `crc32`, `keystream` and `mult` (lookup tables), `data` (ciphertext and known plaintext), `attack` (the key search), `bits` |
+| `tests/attack.rs` | Integration test for the key-recovery attack |
+| `docs/reflection.md` | Generated index of the modules and public API |
+| `tools/reflect.py` | Generates and checks `docs/reflection.md` |
+| [`CHANGELOG.md`](CHANGELOG.md) | Changes, following Keep a Changelog |
+
+## Verification
+
+The checks CI runs (`.github/workflows/ci.yml`). The minimum supported Rust version is 1.80.
+
+```sh
+cargo fmt --all -- --check
+cargo clippy --all-targets -- -D warnings
+cargo test --all-features
+python3 tools/reflect.py --check   # docs/reflection.md is current
+```
+
+Run `python3 tools/reflect.py` after changing the public API to regenerate `docs/reflection.md`.
+
 ## Credits
 
 - Eli Biham and Paul C. Kocher — the attack (FSE 1994).
 - Joachim Hotonnier — [bkcrack](https://github.com/kimci86/bkcrack), the C++
   implementation and documentation this port follows.
+
+## License
+
+Zlib, the licence of the original bkcrack. See [LICENSE](LICENSE).

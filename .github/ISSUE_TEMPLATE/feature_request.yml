@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a capability or API change.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        The port follows the original bkcrack. The README lists the next planned stages
+        (reading and writing ZIP archives, recovering the password from the keys).
+  - type: textarea
+    id: problem
+    attributes:
+      label: The behavior you want
+      description: What should the library do? What is the use case?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How you imagine it
+      description: An API, or the bkcrack feature you want ported.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
